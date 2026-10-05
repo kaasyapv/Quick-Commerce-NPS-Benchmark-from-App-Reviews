@@ -1,0 +1,10 @@
+pandas
+pyarrow
+duckdb
+google-play-scraper
+anthropic
+scikit-learn
+plotly
+kaleido
+streamlit
+python-pptx
