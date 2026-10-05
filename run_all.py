@@ -2,7 +2,7 @@
 import subprocess, sys
 from pathlib import Path
 
-STEPS = []  # filled in phase by phase, e.g. "src/nps.py"
+STEPS = ["src/nps.py"]
 
 for step in STEPS:
     print(f"\n=== {step} ===")
