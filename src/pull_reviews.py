@@ -4,10 +4,11 @@ Usage:
     python src/pull_reviews.py                     # all apps, one newest-first stream each
     python src/pull_reviews.py blinkit --by-star   # one stream per star rating (reaches further back)
     python src/pull_reviews.py --max 2000          # quick test: stop each stream after ~2,000 rows, save nothing
+    python src/pull_reviews.py --counts            # just print reviews per app per month
 
 Pages newest first until a page goes older than START, or until Google stops returning
-pages, which means we hit its depth limit. Every 50,000 rows the rows and continuation token are checkpointed
-to data/raw/_ckpt/, so a crashed run picks up where it stopped.
+pages, which means we hit its depth limit. Every 50,000 rows the rows and continuation
+token are checkpointed to data/raw/_ckpt/, so a crashed run picks up where it stopped.
 """
 import argparse, pickle, time
 from datetime import datetime
@@ -87,21 +88,22 @@ def main():
     ap.add_argument("apps", nargs="*", default=list(APPS))
     ap.add_argument("--by-star", action="store_true")
     ap.add_argument("--max", type=int)
+    ap.add_argument("--counts", action="store_true", help="only print the monthly table")
     args = ap.parse_args()
 
     RAW.mkdir(parents=True, exist_ok=True)
-    for name in args.apps:
+    for name in [] if args.counts else args.apps:
         streams = [1, 2, 3, 4, 5] if args.by_star else [None]
-        df = pd.concat([pull_stream(name, s, args.max) for s in streams])
+        df = pd.concat([pull_stream(name, s, args.max) for s in streams], ignore_index=True)
         df = df[(df["at"] >= START) & (df["at"] < END)].drop_duplicates("reviewId")
         if not args.max:
-            df.to_parquet(RAW / f"{name}.parquet")
+            df.to_parquet(RAW / f"{name}.parquet", index=False)
         print(f"{name}: {len(df):,} reviews in window\n")
 
     # review counts per app per month, from whatever has been pulled so far
     files = sorted(RAW.glob("*.parquet"))
     if files:
-        all_df = pd.concat(pd.read_parquet(f).assign(app=f.stem) for f in files)
+        all_df = pd.concat([pd.read_parquet(f).assign(app=f.stem) for f in files], ignore_index=True)
         print(pd.crosstab(all_df["at"].dt.to_period("M"), all_df["app"], margins=True).to_string())
 
 
