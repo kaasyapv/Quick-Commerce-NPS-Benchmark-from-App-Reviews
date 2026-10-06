@@ -1,0 +1,15 @@
+kind,term,points,moe
+start,zepto,9.967,0.0
+term,app_payment_bugs,1.589,0.684
+term,customer_support,3.521,0.875
+term,fees_and_prices,0.071,0.762
+term,late_delivery,1.526,0.705
+term,missing_or_wrong_items,4.359,0.879
+term,no_complaint,0.954,0.617
+term,other,1.326,0.542
+term,out_of_stock,0.483,0.467
+term,quality_freshness,5.964,1.009
+term,refunds_returns,2.74,0.776
+term,too_short_to_tell,-2.253,0.0
+term,promoters,14.193,0.0
+end,blinkit,44.44,0.0
