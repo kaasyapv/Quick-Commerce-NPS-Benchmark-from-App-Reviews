@@ -10,7 +10,7 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from drivers import DRIVERS
+from drivers import DRIVERS, RULES
 
 CSV = ROOT / "data" / "processed" / "to_label.csv"
 
@@ -32,6 +32,7 @@ if "i" not in st.session_state:  # resume at the first review without a label
     st.session_state.i = int(todo[0]) if len(todo) else len(df)
 i = st.session_state.i
 
+st.sidebar.markdown(RULES.read_text())
 st.progress((df["my_label"] != "").mean())
 if i >= len(df):
     st.success(f"All {len(df)} labelled. You can close this page.")
