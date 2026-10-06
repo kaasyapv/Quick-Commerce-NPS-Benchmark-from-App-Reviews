@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "outputs"
-COLORS = {"blinkit": "#2e7d32", "zepto": "#6a1b9a", "instamart": "#ef6c00"}
+COLORS = {"blinkit": "#e8a600", "zepto": "#7b1fb8", "instamart": "#0b5fff"}  # the brands' own colours
 
 
 def nps(grain: str = "month", detractor_max: int = 3):

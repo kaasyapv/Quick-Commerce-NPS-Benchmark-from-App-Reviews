@@ -18,7 +18,7 @@ from driver_mix import mix
 from nps import OUT, nps
 from sample import PER_CELL
 
-ACCENT, GREY = "#1f4e79", "#9e9e9e"
+ACCENT, GREY = "#cc0000", "#9e9e9e"
 NAMES = {"promoters": "more 5 star reviews", "too_short_to_tell": "too short to tell"}
 
 
