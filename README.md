@@ -26,7 +26,7 @@ python src/sample.py
 python run_all.py
 ```
 
-The pull writes about a million reviews to `data/raw/`. `run_all.py` expects the tag cache from the tagging step described below. The last step, `src/deck.py`, exports the PDF through Keynote, so it needs a Mac. The dashboard runs with `streamlit run app/streamlit_app.py`. The six slide deck is in `deck/qcom_nps.pdf`.
+The pull writes about a million reviews to `data/raw/`. `run_all.py` expects the tag cache from the tagging step described below. The last step, `src/deck.py`, exports the PDF through Keynote, so it needs a Mac. The dashboard runs with `streamlit run app/streamlit_app.py`. The deck, a cover plus six slides, is in `deck/qcom_nps.pdf`.
 
 ## Method
 
