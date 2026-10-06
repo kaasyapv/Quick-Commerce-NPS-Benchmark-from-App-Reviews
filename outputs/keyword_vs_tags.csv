@@ -1,0 +1,12 @@
+driver,reviews,agreement_pct,kappa,precision,recall
+overall,21000,52.133,0.459,,
+late_delivery,1876,,,0.564,0.705
+missing_or_wrong_items,1823,,,0.638,0.333
+quality_freshness,2469,,,0.66,0.565
+fees_and_prices,5299,,,0.868,0.76
+refunds_returns,1528,,,0.628,0.59
+customer_support,1948,,,0.455,0.439
+app_payment_bugs,1918,,,0.439,0.358
+out_of_stock,1704,,,0.787,0.232
+other,844,,,0.092,0.536
+no_complaint,1591,,,0.464,0.192
