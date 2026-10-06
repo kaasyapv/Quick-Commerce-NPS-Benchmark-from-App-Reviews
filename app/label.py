@@ -46,7 +46,7 @@ if df.loc[i, "my_label"]:
 
 for driver, definition in DRIVERS.items():
     button, text = st.columns([2, 5])
-    button.button(driver, key=driver, on_click=save, args=(i, driver), use_container_width=True)
+    button.button(driver, key=driver, on_click=save, args=(i, driver), width="stretch")
     text.caption(definition)
 
 if i > 0:
