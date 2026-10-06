@@ -1,6 +1,6 @@
 -- NPS proxy per app and period, with a 95% margin of error in NPS points.
 -- $grain is 'month' or 'quarter'. Promoter = 5 stars, detractor = score <= $detractor_max
--- (3 for the main definition, 2 for the robustness check where 3 stars count as passive).
+-- (3 for the main definition, 2 for the check where 3 stars count as passive).
 -- "at" is in IST because the scraper converts timestamps with the local clock.
 with reviews as (
     select regexp_extract(filename, '(\w+)\.parquet$', 1) as app,
