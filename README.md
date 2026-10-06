@@ -2,6 +2,10 @@
 
 Blinkit, Zepto and Swiggy Instamart compete on speed, and their Play Store reviews are a large public record of how customers feel. This project turns every public Google Play review posted between 1 Jan 2025 and 30 Sep 2026 into a monthly NPS proxy with a 95% margin of error, tags 21,000 detractor reviews to eight complaint drivers, and prices each driver in NPS points.
 
+[![Cover of the deck](outputs/deck_cover.png)](deck/qcom_nps.pdf)
+
+Click the cover to open the full deck, a cover plus six slides.
+
 In Jul to Sep 2026 Blinkit's NPS proxy is 44.4 and Zepto's is 10.0, a gap of 34.5 points. Of those, 14.2 come from Blinkit's higher share of 5 star reviews. The rest is complaints: quality and freshness 6.0 points, missing or wrong items 4.4, support and rider behaviour 3.5. Instamart (43.8) is tied with Blinkit inside the margin of error.
 
 ![NPS gap between Blinkit and Zepto, by source](outputs/waterfall.png)
@@ -26,7 +30,7 @@ python src/sample.py
 python run_all.py
 ```
 
-The pull writes about a million reviews to `data/raw/`. `run_all.py` expects the tag cache from the tagging step described below. The last step, `src/deck.py`, exports the PDF through Keynote, so it needs a Mac. The dashboard runs with `streamlit run app/streamlit_app.py`. The deck, a cover plus six slides, is in `deck/qcom_nps.pdf`.
+The pull writes about a million reviews to `data/raw/`. `run_all.py` expects the tag cache from the tagging step described below. The last step, `src/deck.py`, exports the PDF through Keynote, so it needs a Mac. The dashboard runs with `streamlit run app/streamlit_app.py`.
 
 ## Method
 
