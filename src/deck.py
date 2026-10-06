@@ -1,7 +1,7 @@
 """Build the deck (cover plus six slides) from the saved outputs and export it to PDF.
 
-Every number on a slide is read from a CSV in outputs/. Writes deck/qcom_nps.pptx and
-deck/qcom_nps.pdf. The PDF export drives Keynote through AppleScript, so it needs a Mac with Keynote.
+Every number on a slide is read from a CSV in outputs/. Writes deck/qcom_nps.pptx,
+deck/qcom_nps.pdf and outputs/deck_cover.png. The PDF export drives Keynote through AppleScript, so it needs a Mac with Keynote.
 """
 import subprocess
 from pathlib import Path
@@ -190,7 +190,19 @@ end tell'''
     print(f"saved {pdf}")
 
 
+def cover_png():
+    """The cover as an image for the README, rendered from the PDF with macOS sips."""
+    out = OUT / "deck_cover.png"
+    subprocess.run(["sips", "-s", "format", "png", "--resampleWidth", "1600", str(DECK / "qcom_nps.pdf"), "--out", str(out)],
+                   check=True, capture_output=True)
+    # the render comes out in the display colour space, which dulls the red, so convert it to sRGB
+    subprocess.run(["sips", "--matchTo", "/System/Library/ColorSync/Profiles/sRGB Profile.icc", str(out), "--out", str(out)],
+                   check=True, capture_output=True)
+    print(f"saved {out}")
+
+
 if __name__ == "__main__":
     DECK.mkdir(exist_ok=True)
     main()
     export_pdf()
+    cover_png()
