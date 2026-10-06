@@ -102,7 +102,6 @@ def main():
         text(s, 9.4, 2.35 + i * 1.95, 3.5, 0.8, small, size=14, color=PALE)
         if i < 2:
             shape(s, MSO_SHAPE.RECTANGLE, 9.4, 3.3 + i * 1.95, 3.4, 0.015, PALE)
-    shape(s, MSO_SHAPE.RECTANGLE, 0.8, 1.0, 0.9, 0.09, RED)
     text(s, 0.8, 1.2, 7.5, 0.4, "CASE STUDY  |  QUICK COMMERCE", size=13, color=RED, bold=True)
     text(s, 0.8, 1.65, 7.9, 2.2, ["Quick-Commerce", "NPS Benchmark"], size=46, color=DARK, bold=True)
     text(s, 0.8, 3.7, 7.5, 1.2, f"What {total / 1e6:.1f} million Google Play reviews say about Blinkit, Zepto and Swiggy Instamart", size=20, color=GREY)
