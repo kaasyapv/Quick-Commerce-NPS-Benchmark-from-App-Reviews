@@ -54,7 +54,7 @@ The cloud copy shows the 20 example quotes in `outputs/example_quotes.csv`, beca
 
 ## Data and ethics
 
-The reviews are public. `data/` is git ignored, and no raw review text is committed. The repository holds aggregates in `outputs/` and 20 short example quotes with no names, addresses or contact details.
+The reviews are public. `data/` is git ignored, and no raw review text is committed. The repository holds aggregates in `outputs/` and 20 short example quotes with no names, addresses or contact details. The app logos on the deck cover are downloaded by `src/logos.py` into `data/` and are not committed.
 
 ## Limitations
 

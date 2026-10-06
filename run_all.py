@@ -3,7 +3,7 @@ import subprocess, sys
 from pathlib import Path
 
 STEPS = ["src/sample.py", "src/nps.py", "src/driver_mix.py", "src/bridge.py", "src/robust.py",
-         "src/baseline.py", "src/quotes.py", "src/deck_charts.py", "src/deck.py"]
+         "src/baseline.py", "src/quotes.py", "src/logos.py", "src/deck_charts.py", "src/deck.py"]
 
 for step in STEPS:
     print(f"\n=== {step} ===")
