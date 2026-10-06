@@ -19,7 +19,7 @@ def nps(grain: str = "month", detractor_max: int = 3):
     return duckdb.execute(sql, params).df()
 
 
-def chart(df, path):
+def figure(df):
     """NPS line per app with a shaded 95% band."""
     fig = go.Figure()
     for app, g in df.groupby("app"):
@@ -32,7 +32,7 @@ def chart(df, path):
     fig.update_layout(template="simple_white", width=1100, height=550, font_size=16,
                       title="Monthly NPS proxy from Google Play reviews (95% margin of error shaded)",
                       yaxis_title="NPS (points)", legend=dict(orientation="h", y=-0.12))
-    fig.write_image(path, scale=2)
+    return fig
 
 
 if __name__ == "__main__":
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         for detractor_max, suffix in ((3, ""), (2, "_3star_passive")):
             nps(grain, detractor_max).to_csv(OUT / f"nps_{grain}ly{suffix}.csv", index=False)
     monthly = nps("month")
-    chart(monthly, OUT / "nps_trend.png")
+    figure(monthly).write_image(OUT / "nps_trend.png", scale=2)
 
     print(monthly.pivot(index="period", columns="app", values="nps").to_string())
     print("\nmargin of error, points (min / median / max):")
