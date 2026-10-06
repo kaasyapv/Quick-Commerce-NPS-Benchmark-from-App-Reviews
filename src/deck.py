@@ -14,9 +14,9 @@ from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT, DECK = ROOT / "outputs", ROOT / "deck"
+OUT, DECK, LOGOS = ROOT / "outputs", ROOT / "deck", ROOT / "data" / "logos"
 rgb = lambda h: RGBColor.from_string(h)
-NAVY, DARK, CARD, INK, GREY, PALE, WHITE = (rgb(h) for h in ("1F4E79", "0F2A43", "F1F5F9", "222222", "6B7280", "BBD3EA", "FFFFFF"))
+RED, DARK, CARD, INK, GREY, RULE, PALE, WHITE = (rgb(h) for h in ("CC0000", "1A1A1A", "F2F2F2", "333333", "6B6B6B", "D9D9D9", "F7D6D6", "FFFFFF"))
 
 WORDS = {"quality_freshness": "quality and freshness", "missing_or_wrong_items": "missing or wrong items",
          "customer_support": "support and rider behaviour", "refunds_returns": "refunds and returns",
@@ -58,10 +58,10 @@ def card(slide, x, y, w, h):
 
 def page(prs, n, kicker, title, source):
     s = prs.slides.add_slide(prs.slide_layouts[6])  # blank layout
-    shape(s, MSO_SHAPE.RECTANGLE, 0, 0, 0.25, 7.5, NAVY)
-    text(s, 0.65, 0.3, 12, 0.35, kicker.upper(), size=12, color=NAVY, bold=True)
+    shape(s, MSO_SHAPE.RECTANGLE, 0, 0, 0.25, 7.5, RED)
+    text(s, 0.65, 0.3, 12, 0.35, kicker.upper(), size=12, color=RED, bold=True)
     text(s, 0.65, 0.62, 12.1, 1.0, title, size=24, color=DARK, bold=True)
-    shape(s, MSO_SHAPE.RECTANGLE, 0.65, 1.62, 12.05, 0.03, PALE)
+    shape(s, MSO_SHAPE.RECTANGLE, 0.65, 1.62, 12.05, 0.03, RULE)
     text(s, 0.65, 7.05, 10.8, 0.3, source, size=10, color=GREY)
     text(s, 12.0, 7.05, 0.7, 0.3, str(n), size=10, color=GREY, align=PP_ALIGN.RIGHT)
     return s
@@ -93,23 +93,35 @@ def main():
     prs.slide_width, prs.slide_height = Inches(13.333), Inches(7.5)
 
     s = prs.slides.add_slide(prs.slide_layouts[6])
-    shape(s, MSO_SHAPE.RECTANGLE, 0, 0, 13.333, 7.5, DARK)
-    shape(s, MSO_SHAPE.RECTANGLE, 0.8, 1.55, 1.1, 0.08, PALE)
-    text(s, 0.8, 1.8, 11.5, 1.2, "Quick-Commerce NPS Benchmark", size=50, color=WHITE, bold=True)
-    text(s, 0.8, 3.05, 11, 1.1, f"What {total / 1e6:.1f} million Google Play reviews say about Blinkit, Zepto and Swiggy Instamart", size=24, color=PALE)
+    shape(s, MSO_SHAPE.RECTANGLE, 8.9, 0, 4.433, 7.5, RED)
+    text(s, 9.4, 0.75, 3.6, 0.4, "AT A GLANCE", size=13, color=PALE, bold=True)
     for i, (big, small) in enumerate([(f"{total:,}", "public reviews, Jan 2025 to Sep 2026"),
                                       (f"{kw['reviews']:,.0f}", "detractor reviews tagged to 8 complaint drivers"),
                                       (f"{gap:.1f} points", f"NPS gap, {lead.capitalize()} vs {lag.capitalize()}, {span}")]):
-        text(s, 0.8 + i * 4.1, 4.95, 3.9, 0.8, big, size=36, color=WHITE, bold=True)
-        text(s, 0.8 + i * 4.1, 5.75, 3.7, 0.8, small, size=14, color=PALE)
-    text(s, 0.8, 6.85, 11, 0.4, "Sri Kaasyap Vepa  |  A review based NPS proxy with a 95% margin of error", size=13, color=PALE)
+        text(s, 9.4, 1.4 + i * 1.95, 3.7, 0.9, big, size=40, color=WHITE, bold=True)
+        text(s, 9.4, 2.35 + i * 1.95, 3.5, 0.8, small, size=14, color=PALE)
+        if i < 2:
+            shape(s, MSO_SHAPE.RECTANGLE, 9.4, 3.3 + i * 1.95, 3.4, 0.015, PALE)
+    shape(s, MSO_SHAPE.RECTANGLE, 0.8, 1.0, 0.9, 0.09, RED)
+    text(s, 0.8, 1.2, 7.5, 0.4, "CASE STUDY  |  QUICK COMMERCE", size=13, color=RED, bold=True)
+    text(s, 0.8, 1.65, 7.9, 2.2, ["Quick-Commerce", "NPS Benchmark"], size=46, color=DARK, bold=True)
+    text(s, 0.8, 3.7, 7.5, 1.2, f"What {total / 1e6:.1f} million Google Play reviews say about Blinkit, Zepto and Swiggy Instamart", size=20, color=GREY)
+    text(s, 0.8, 4.85, 4, 0.3, "APPS COMPARED", size=11, color=GREY, bold=True)
+    text(s, 5.6, 4.85, 3, 0.3, "DATA SOURCE", size=11, color=GREY, bold=True)
+    shape(s, MSO_SHAPE.RECTANGLE, 5.2, 5.2, 0.015, 1.4, RULE)
+    for x, name, label in [(0.8, "blinkit", "Blinkit"), (2.15, "zepto", "Zepto"), (3.5, "instamart", "Instamart"), (5.75, "googleplay", "Google Play")]:
+        s.shapes.add_picture(str(LOGOS / f"{name}.png"), Inches(x), Inches(5.2), height=Inches(1.05))
+        text(s, x - 0.1 if name != "googleplay" else x - 0.15, 6.3, 1.25, 0.3, label, size=11, color=GREY, align=PP_ALIGN.CENTER)
+    text(s, 0.8, 6.85, 7.8, 0.4, "Sri Kaasyap Vepa  |  A review based NPS proxy with a 95% margin of error", size=12, color=GREY)
 
     s = page(prs, 2, "Executive summary", f"{lead.capitalize()} leads {lag.capitalize()} by {gap:.1f} NPS points in {span}, and "
              f"{WORDS[d1]} and {WORDS[d2]} explain {named['points'].iloc[:2].sum():.1f} of them", source)
     for i, a in enumerate(cur.index):
-        card(s, 0.65 + i * 4.1, 1.85, 3.9, 1.35)
-        text(s, 0.85 + i * 4.1, 1.92, 3.5, 0.4, f"{a.capitalize()}, {span}", size=13, color=GREY)
-        text(s, 0.85 + i * 4.1, 2.25, 3.5, 0.8, f"{cur.loc[a, 'nps']:.1f}  (±{cur.loc[a, 'moe']:.1f})", size=32, color=NAVY, bold=True)
+        x = 0.65 + i * 4.1
+        card(s, x, 1.85, 3.9, 1.35)
+        s.shapes.add_picture(str(LOGOS / f"{a}.png"), Inches(x + 0.2), Inches(2.05), height=Inches(0.95))
+        text(s, x + 1.3, 1.92, 2.5, 0.4, f"{a.capitalize()}, {span}", size=13, color=GREY)
+        text(s, x + 1.3, 2.3, 2.6, 0.8, f"{cur.loc[a, 'nps']:.1f} (±{cur.loc[a, 'moe']:.1f})", size=28, color=RED, bold=True)
     pic(s, "deck_latest", 0.65, 3.4, 6.2)
     text(s, 7.3, 3.5, 5.4, 3.4, [
         f"The {gap:.1f} point gap: {promo:.1f} from more 5 star reviews at {lead.capitalize()}, {gap - promo:.1f} from heavier complaints at {lag.capitalize()}.",
@@ -143,7 +155,7 @@ def main():
     for i, d in enumerate((d1, d2, d3)):
         y = 1.85 + i * 1.5
         card(s, 0.65, y, 6.6, 1.35)
-        text(s, 0.8, y + 0.2, 1.7, 0.9, f"{named.loc[d, 'points']:.1f}", size=38, color=NAVY, bold=True)
+        text(s, 0.8, y + 0.2, 1.7, 0.9, f"{named.loc[d, 'points']:.1f}", size=38, color=RED, bold=True)
         text(s, 2.4, y + 0.1, 4.7, 0.4, f"{i + 1}. {WORDS[d].capitalize()} (±{named.loc[d, 'moe']:.1f})", size=16, bold=True)
         text(s, 2.4, y + 0.5, 4.7, 0.8, ACTIONS[d], size=12.5)
     pic(s, "deck_stakes", 7.5, 1.85, 5.2)
@@ -151,7 +163,7 @@ def main():
          "Matching the leader's rate would recover them. The ± is sampling error from the tagged sample.", size=12, color=GREY)
 
     s = page(prs, 7, "Method and limitations", "The numbers are a review based proxy for NPS, tagged by a model and checked for consistency, not yet against human labels", source)
-    text(s, 0.65, 1.8, 6.0, 0.4, "Method", size=18, color=NAVY, bold=True)
+    text(s, 0.65, 1.8, 6.0, 0.4, "Method", size=18, color=RED, bold=True)
     text(s, 0.65, 2.3, 6.0, 4.6, [
         f"Promoter 5 stars, passive 4, detractor 1 to 3. {total:,} reviews over {n_months} months.",
         f"{kw['reviews']:,.0f} detractor reviews (1,000 per app per quarter, 4 or more words) tagged to 8 complaint drivers by Claude in an interactive session.",
@@ -159,7 +171,7 @@ def main():
         f"A keyword list agrees with the model tags on {kw['agreement_pct']:.0f}% (kappa {kw['kappa']:.2f}).",
         f"The waterfall splits the {gap:.1f} point gap exactly."], size=15)
     pic(s, "deck_validation", 6.9, 1.8, 5.8)
-    text(s, 6.9, 4.45, 5.8, 0.4, "Limitations", size=18, color=NAVY, bold=True)
+    text(s, 6.9, 4.45, 5.8, 0.4, "Limitations", size=18, color=RED, bold=True)
     text(s, 6.9, 4.9, 5.8, 2.1, [
         "Review based proxy, not survey NPS. Reviewers skew negative.",
         "Play Store and English only. Tags not yet checked against human labels.",
